@@ -1,0 +1,57 @@
+@media (max-width: 767px) {
+    /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
+    body {
+        padding-top: 50px;
+    }
+}
+
+
+.table img{
+    height:30px;
+    width:30px;
+}
+
+.preview-container{
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    flex-grow: 0;
+}
+
+.profile-picture{
+    width:100px;
+    margin-bottom:10px;
+    margin-top:10px;
+}
+
+.profile-header{
+    display: flex;
+}
+
+.profile-container{
+    width:120px;
+}
+
+#date-birthday{
+    width:200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+}
+
+.buttons{
+    display: flex;
+    width:320px;
+    justify-content: space-between;
+}
+
+#txt-hobbies{
+    max-width: 200px;
+    min-width: 200px;
+    min-height: 80px;
+    max-height: 200px;
+}
