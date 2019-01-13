@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "prestart": "node helpers/dbinit.js",
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "@mysql/xdevapi": "^8.0.13",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
