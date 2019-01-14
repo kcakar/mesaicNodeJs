@@ -210,7 +210,7 @@ Note that **the project only includes a few ES6 [polyfills](https://en.wikipedia
 
 * [`Object.assign()`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) via [`object-assign`](https://github.com/sindresorhus/object-assign).
 * [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) via [`promise`](https://github.com/then/promise).
-* [`/api/students/()`](https://developer.mozilla.org/en/docs/Web/API//api/students/_API) via [`whatwg-/api/students/`](https://github.com/github//api/students/).
+* [`/api/students/()`](https://developer.mozilla.org/en/docs/Web/API//api/students/_API) via [`whatwg-fetch`](https://github.com/github//api/students/).
 
 If you use any other ES6+ features that need **runtime support** (such as `Array.from()` or `Symbol`), make sure you are including the appropriate polyfills manually, or that the browsers you are targeting already support them.
 
