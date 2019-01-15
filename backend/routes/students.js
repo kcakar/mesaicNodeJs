@@ -21,7 +21,7 @@ const upload = multer({ storage: storage })
 router.get('/', async function(req, res, next) {
   console.log("REQUEST HERE")
   try{
-    db.getStudents((error,results)=>{
+    db.getStudents(req.query.order,req.query.asc,(error,results)=>{
       if(!error)
       {
         res.send(results);

@@ -11,6 +11,22 @@
     width:30px;
 }
 
+.table th.sort{
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s linear;
+}
+
+.table th.sort:hover{
+    color:rgb(116, 226, 73);
+}
+
+.table th.sort .glyphicon{
+    position: absolute;
+    top:11px;
+    left:-6px;
+}
+
 .table th.th-first-name{
     min-width:90px;
 }

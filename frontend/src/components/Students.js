@@ -10,7 +10,16 @@ export class Students extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { students: [], loading: true,showModal:false,modal:this.getDeleteModal() };
+    this.state = { 
+      students: [], 
+      loading: true,
+      showModal:false,
+      modal:this.getDeleteModal(),
+      orderBy:"",
+      orderAsc:false
+    };
+
+    this.setOrder=this.setOrder.bind(this);
   }
 
   componentDidMount()
@@ -23,11 +32,12 @@ export class Students extends Component {
     this.setState({ loading: state });
   }
 
-  getStudents()
+  getStudents(order="",orderAsc="")
   {
     this.setLoading(true);
-    fetch(`${window.ApiUrl}/api/students/`, {mode: "cors"})
-      .then(response => response.json())
+    fetch(`${window.ApiUrl}/api/students/?order=${order}&asc=${orderAsc}`, 
+      {mode: "cors"},
+    ).then(response => response.json())
       .then(data => {
         this.setState({ students: data, loading: false });
       }).catch(ex=>{
@@ -75,22 +85,38 @@ export class Students extends Component {
     );
   }
 
+  setOrder(column){
+    let current=this.state.orderBy;
+    let asc=this.state.orderAsc;
+    if(current===column)
+    {
+      asc=!this.state.orderAsc;
+      this.setState({orderAsc:asc});
+    }
+    else
+    {
+      this.setState({orderBy:column});
+    }
+    this.getStudents(column,asc);
+  }
+
   renderStudentsTable(students) {
+    let ascGlyph=(<Glyphicon  glyph={!this.state.orderAsc?'triangle-bottom':'triangle-top'}></Glyphicon>)
     return (
       <table className='table'>
         <thead>
           <tr>
             <th>Photo</th>
-            <th className="th-first-name">First name</th>
-            <th>Last name</th>
-            <th>Birth date</th>
+            <th onClick={e=>this.setOrder("firstName")} className="th-first-name sort">First name {this.state.orderBy=="firstName"?ascGlyph:""}</th>
+            <th onClick={e=>this.setOrder("lastName")} className="sort">Last name {this.state.orderBy=="lastName"?ascGlyph:""}</th>
+            <th onClick={e=>this.setOrder("birthDate")} className="sort">Birth date {this.state.orderBy=="birthDate"?ascGlyph:""}</th>
             <th>Hobbies</th>
             <th>Actions</th>
           </tr>
         </thead>
           <tbody>
             {students.map((student,index) =>
-            {
+            { 
               const birthay=new Date(student.birthDate);
               return (
                   <ReactCSSTransitionGroup key={student.id} component={React.Fragment} transitionName="table-rows" transitionAppear={true} transitionAppearTimeout={600} transitionEnterTimeout={600} transitionLeaveTimeout={600}>

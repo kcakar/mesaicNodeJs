@@ -36,7 +36,8 @@ const queries={
                             photoUrl varchar(200) NOT NULL,
                             dateCreated datetime NOT NULL)`,
     studentTable:{
-        getAll:()=>`SELECT * FROM ${dbConfig.schema}.${dbConfig.studentsTable};`,
+        getAll:()=>`SELECT * FROM ${dbConfig.schema}.${dbConfig.studentsTable} order by dateCreated DESC;`,
+        getAllByOrder:(column,desc)=>`SELECT * FROM ${dbConfig.schema}.${dbConfig.studentsTable} order by ${column} ${desc?"desc":""};`,
         getSingle:(id)=>`SELECT * FROM ${dbConfig.schema}.${dbConfig.studentsTable} WHERE ID='${id}';`,
         delete:(id)=>`DELETE FROM ${dbConfig.schema}.${dbConfig.studentsTable} WHERE id='${id}';`,
         add:(student)=>(`INSERT INTO ${dbConfig.schema}.${dbConfig.studentsTable} 
@@ -61,8 +62,15 @@ exports.connection=connection;
 exports.preConnection=preConnection;
 
 //RETRIVE ALL STUDENTS
-exports.getStudents=(cb)=>{
-    connection.query(queries.studentTable.getAll(),function(error,results,fields){
+exports.getStudents=(order,asc,cb)=>{
+    console.log(asc=='true')
+    let query=queries.studentTable.getAllByOrder(order,asc=='true');
+    if(!order || order.length<=0)
+    {
+        query=queries.studentTable.getAll();
+    }
+    console.log(query)
+    connection.query(query,function(error,results,fields){
         console.log(error);
         cb(error,results);
     });
@@ -154,6 +162,9 @@ exports.init=(mockGenerator)=>{
                                 console.log("Database ready!");
                                 connection.end();
                             });
+                        }
+                        else{
+                            connection.end();
                         }
                     })
                 }

@@ -182,8 +182,9 @@ export class EditStudent extends Component {
                 });
                 NotificationManager.success(result.message,"",1000);
                 if (this.state.mode === mode.Add) {
-                    this.state.student.id=result.id;
-                    this.setState({mode:mode.Edit});
+                    let student=this.state.student;
+                    student.id=result.id;
+                    this.setState({mode:mode.Edit,student});
                 }
             })
             .catch(error => {
