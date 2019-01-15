@@ -168,3 +168,4 @@ exports.init=(mockGenerator)=>{
 //todo
 //error messages
 //make avatar link relative
+//add modal

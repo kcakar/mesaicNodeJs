@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Glyphicon, ButtonToolbar, ButtonGroup, Button ,OverlayTrigger,Tooltip} from 'react-bootstrap';
+import { Glyphicon, ButtonToolbar, ButtonGroup, Button ,OverlayTrigger,Tooltip,Modal} from 'react-bootstrap';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import { LinkContainer } from 'react-router-bootstrap';
 import moment from 'moment';
@@ -10,7 +10,7 @@ export class Students extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { students: [], loading: true };
+    this.state = { students: [], loading: true,showModal:false,modal:this.getDeleteModal() };
   }
 
   componentDidMount()
@@ -35,23 +35,44 @@ export class Students extends Component {
       });
   }
 
+  showDeleteModal(student){
+    this.setState({showModal:true,modal:this.getDeleteModal(student)});
+
+  }
+
   deleteStudent(student){
-    if (window.confirm(`Are you sure you want to delete "${student.firstName} ${student.lastName}"`)) {
-      this.setLoading(true);
-        fetch(`${window.ApiUrl}/api/Students/Delete/${student.id}`,{method:'DELETE'})
-      .then(respone=>respone.json()).then(result=>{
-        if(result.success)
-        {
-          this.getStudents();
-        }
-      });
-    }
+    this.setState({showModal:false});
+    this.setLoading(true);
+      fetch(`${window.ApiUrl}/api/Students/Delete/${student.id}`,{method:'DELETE'})
+    .then(respone=>respone.json()).then(result=>{
+      if(result.success)
+      {
+        this.getStudents();
+      }
+    });
   }
 
   getTooltip(text){
     return (
       <Tooltip id="tooltip">{text}</Tooltip>
     )
+  }
+
+  getDeleteModal(student){
+    return(
+      <div className="static-modal">
+        <Modal.Dialog>
+          <Modal.Header>
+            <Modal.Title>This student will be gone forever!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Do you want to remove <b>{student?student.firstName+" "+student.lastName:""}</b></Modal.Body>
+          <Modal.Footer>
+            <Button bsStyle="danger" onClick={e=>this.deleteStudent(student)}>Yes</Button>
+            <Button onClick={e=>this.setState({showModal:false})}>No</Button>
+          </Modal.Footer>
+        </Modal.Dialog>
+    </div>
+    );
   }
 
   renderStudentsTable(students) {
@@ -90,7 +111,7 @@ export class Students extends Component {
                                 </OverlayTrigger>
                               </LinkContainer>
                                 <OverlayTrigger placement="bottom" overlay={this.getTooltip("Delete")}>
-                                  <Button onClick={e=>this.deleteStudent(student)}>
+                                  <Button onClick={e=>this.showDeleteModal(student)}>
                                     <Glyphicon glyph="trash"  />
                                   </Button>
                                 </OverlayTrigger>
@@ -112,13 +133,14 @@ export class Students extends Component {
         ? (<Loading></Loading>)
         : this.renderStudentsTable(this.state.students);
     return (
-      <div>
+      <div className="students">
         <h1>Students</h1>
         <p>You can see the list of students here</p>
             <LinkContainer to={`/Add/`} exact>
                 <Button>Add new student</Button>
             </LinkContainer>
         {contents}
+        {this.state.showModal?this.state.modal:""}
       </div>
     );
   }

@@ -134,6 +134,14 @@
   border-color: black transparent black transparent;
   animation: loading 1.2s linear infinite;
 }
+
+.students{
+    position: relative;
+}
+.students .modal, .students .modal-backdrop {
+  position: absolute;
+}
+
 @keyframes loading {
   0% {
     transform: rotate(0deg);
@@ -142,3 +150,4 @@
     transform: rotate(360deg);
   }
 }
+
