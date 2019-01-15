@@ -1,6 +1,6 @@
 # mesaicNodeJs
 
-Hello! I have created this application using NodeJS, MySQL and ReactJS.
+Hello! I have created this application using NodeJS, MySQL and React.
 
 ## Installation
 
