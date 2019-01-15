@@ -11,6 +11,16 @@
     width:30px;
 }
 
+.table th.th-first-name{
+    min-width:90px;
+}
+
+.table tr .btn-group{
+    min-width:80px;
+}
+
+
+
 .preview-container{
     display: flex;
     align-content: center;
@@ -20,6 +30,7 @@
 
 .profile-picture{
     width:100px;
+    height: 100px;
     margin-bottom:10px;
     margin-top:10px;
 }
@@ -32,8 +43,11 @@
     width:120px;
 }
 
+.react-datepicker-wrapper,.react-datepicker__input-container{
+    width:100%;
+}
 #date-birthday{
-    width:200px;
+    width:100%;
     border: 1px solid #ccc;
     border-radius: 4px;
     height: 34px;
@@ -43,6 +57,10 @@
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
 }
 
+.txt-photo-container{
+    height:170px;
+}
+
 .buttons{
     display: flex;
     width:320px;
@@ -50,8 +68,77 @@
 }
 
 #txt-hobbies{
-    max-width: 200px;
-    min-width: 200px;
     min-height: 80px;
     max-height: 200px;
+    width:100%;
+    resize: vertical;
+}
+
+
+
+.fade-in-appear {
+  opacity: 0.01;
+}
+
+.fade-in-appear.fade-in-appear-active {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+  will-change: opacity;
+}
+
+.form-inputs-appear {
+  opacity: 0.01;
+  position: relative;
+  right:-50px;
+  will-change: opacity,right;
+}
+
+.form-inputs-appear.form-inputs-appear-active {
+  opacity: 1;
+  right: 0;
+  position: relative;
+  transition: opacity .6s ease-in,right .2s ease-in;
+}
+
+
+.table-rows-appear{
+  opacity: 0.01;
+  position: relative;
+  will-change: opacity,right;
+}
+
+.table-rows-appear.table-rows-appear-active{
+  opacity: 1;
+  position: relative;
+  transition: opacity .6s ease-in;
+}
+
+.loading-container{
+    display: flex;
+    justify-content: center;
+    margin-top:50px;
+}
+.loading {
+  display: inline-block;
+  width: 64px;
+  height: 64px;
+}
+.loading:after {
+  content: " ";
+  display: block;
+  width: 46px;
+  height: 46px;
+  margin: 1px;
+  border-radius: 50%;
+  border: 5px solid black;
+  border-color: black transparent black transparent;
+  animation: loading 1.2s linear infinite;
+}
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

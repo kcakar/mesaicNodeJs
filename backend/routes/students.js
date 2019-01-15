@@ -4,6 +4,8 @@ const router = express.Router();
 const uuidv1 = require('uuid/v1');
 
 const db=require('./../helpers/db');
+const studentModel= require('./../models/studentModel');
+
 
 //storage info for avatar images
 var storage = multer.diskStorage({
@@ -24,9 +26,6 @@ router.get('/', async function(req, res, next) {
       {
         res.send(results);
       }
-      else{
-        res.send([]);
-      }
     })
   }
   catch(ex)
@@ -45,9 +44,6 @@ router.get('/student/:id', function(req, res, next) {
       {
         res.send({success:true,student:result});
       }
-      else{
-        res.send({success:false,student:{}});
-      }
     })
   }
   catch(ex)
@@ -56,30 +52,56 @@ router.get('/student/:id', function(req, res, next) {
   }
 });
 
-//UPDATE A STUDENT
-router.post('/student/', function(req, res, next) {
-  let student=mock.find(student=>{return student.id==req.body.id});
-  student.firstName=req.body.firstName;  
-  student.lastName=req.body.lastName;  
-  student.birthDate=req.body.birthDate;  
-  student.hobbies=req.body.hobbies;  
-  student.dateCreated=req.body.dateCreated;  
-  student.photoUrl=req.body.photoUrl;  
-  res.send({success:true, message : "Student is updated."});
-});
-
 //ADD A STUDENT
 router.post('/newstudent/', function(req, res, next) {
-  let newStudent=req.body;
-  newStudent.id=uuidv1();
-  mock.push(newStudent);
-  res.send({success:true, message : "Student is added."});
+  console.log("ADD REQUEST HERE")
+  try{
+    let newStudent=req.body;
+    newStudent.id=uuidv1(); //generating id for the new student
+
+    const checkResult=studentModel.checkStudentModel(newStudent);     //checking if student has the required fields filled.
+    console.log(checkResult);
+    if(!checkResult.isError)
+    {
+      db.addStudent(newStudent,(error)=>{
+        if(!error)
+        {
+          res.send({success:true, message : "Student is added.",id:newStudent.id});
+        }
+      });
+    }
+    else{
+      res.send({success:false, message : "Could not add the student.\n"+checkResult.errorMessage});
+    }
+  }
+  catch(ex)
+  {
+    console.log(ex)
+    res.send({success:false, message : "Could not add the student."});
+  }
 });
 
 //UPLOAD AN AVATAR
 router.post('/SaveProfilePicture/',upload.single("image"),function(req, res, next) {
   const tempPath = req.file.path;
   res.send({success:true,url:"http://"+req.get('host')+"/images/"+req.file.filename});
+});
+
+//UPDATE A STUDENT
+router.post('/student/', function(req, res, next) {
+  console.log("UPDATE REQUEST HERE")
+  try{
+    db.editStudent(req.body,(error)=>{
+      if(!error)
+      {
+        res.send({success:true, message : "Student is updated."});
+      }
+    })
+  }
+  catch(ex)
+  {
+    res.send({success:false, message : "Could not update the student."});
+  }
 });
 
 //DELETE A STUDENT
@@ -90,9 +112,6 @@ router.delete('/delete/:id', function(req, res, next) {
       if(!error)
       {
         res.send({success:true});
-      }
-      else{
-        res.send({success:false});
       }
     })
   }
