@@ -10,7 +10,7 @@ You also need to have MySQL installed.
 
 Appearently MySQL updated its authorization mode so I had to use below command to make my connector work:
 
-```
+```sql
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'YOURPASSWORDHERE'
 ```
 
