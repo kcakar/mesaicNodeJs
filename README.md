@@ -20,7 +20,7 @@ You can change your connection settings on backend/helpers/db.js path.
 
 There is an object called dbConfig as below:
 
-```JSON
+```javascript
 const dbConfig = {
         host: 'localhost',
         port: 33060,
